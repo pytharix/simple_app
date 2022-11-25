@@ -15,4 +15,4 @@ def index():
 
 
 if __name__ == "__main__":
-    apps.run(host=host, port=5000, debug=True)
+    apps.run(host=host, port=5000)
