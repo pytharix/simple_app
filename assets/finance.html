@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Tiny Jar Production</title>
+    <script>
+        const si_s = [];
+    
+        function add_invoice() {
+            const si_ = document.getElementById('select_si');
+            const a = document.createElement('li');
+            let si_id = si_.value;
+            const current_op = document.getElementById(si_id);
+            const select = document.getElementById('select_si')
+
+            if (current_op != null) {
+                a.innerHTML = si_id;
+                si_s.push(si_id)
+
+                current_op.style.display = 'none'
+                select.value = ''
+                document.querySelector('ul.container_si').append(a);
+
+                document.getElementById('pay').disabled = false
+            }
+        }
+        function paysi(){
+            window.location.href = '/payment?si=' + si_s.toString()
+        }
+    </script>
+</head>
+<body>
+<div class="sidebar">
+    <nav>
+        <div class="logo">
+            <img src="../static/logo_white.png" alt="logo">
+        </div>
+        <ul>
+            <a href="/finance_page">
+                <li>Dashboard</li>
+            </a>
+            <a href="/">
+                <li><i class="fa fa-sign-out"></i> &nbsp Logout</li>
+            </a>
+        </ul>
+    </nav>
+</div>
+<div class="container">
+    <h1>Invoice Payment</h1>
+    <div class="selection">
+        <label for="select_si"> </label>
+        <select class="option_select" name="select_si" id="select_si">
+            <option disabled selected value> -- select an option -- </option>
+            {% for each in si_ %}
+            <option id="{{each.no_trans}}" value="{{each.no_trans}}">{{each.no_trans}}</option>
+            {% endfor %}
+        </select>&emsp;&emsp;
+        <button class="add_invoice" onclick="add_invoice()">Add</button>
+    </div><br>
+    <div>
+        <h3>Invoice Number(s):</h3>
+        <ul class="container_si">
+
+        </ul>
+    </div>
+    <button class="payment" id="pay" onclick="paysi()" disabled>Pay</button>
+</div>
+</body>
+</html>
